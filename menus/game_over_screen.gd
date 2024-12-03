@@ -17,9 +17,10 @@ func _ready():
 	current_time = current_time.replace(":","-")
 	var file_name = "user://data/" + PlayerData.player_name +"_"+ Time.get_date_string_from_system() + "_" + current_time
 	var file = FileAccess.open(file_name, FileAccess.WRITE)
-	file.store_line(PlayerData.player_name)
-	for key in keys:
-		file.store_line(create_new_time_label(key, PlayerData.map_of_times[key]))
+	file.store_line("Player's Code: " + PlayerData.player_name)
+	file.store_line("Object's Name  | Object's Time Since Start  | Object's Time Since Last Object Found")
+	for i in range(len(keys)):
+		file.store_line(str(i + 1) + ") " + create_new_time_label(keys[i], PlayerData.map_of_times[keys[i]]) + "                 |" + get_time_diff(keys, i))
 	file.close()
 	
 func _on_play_again_pressed():
@@ -28,6 +29,13 @@ func _on_play_again_pressed():
 		PlayerData.map_of_times = {}
 
 func create_new_time_label(time, text):
-	var full_text = text + ": " + str("%10.2f"%time) + "s"
+	var spaces_to_add = " ".repeat(12 - len(text))
+	var full_text = (text + spaces_to_add + "|" + str("%12.3f"%time) + "s")
 	return full_text
 	
+func get_time_diff(keys, i):
+	
+	if(i == 0):
+		return str("%12.3f"%keys[i]) + "s"
+	else:
+		return  str("%12.3f"%(abs(keys[i-1] - keys[i]))) + "s"
