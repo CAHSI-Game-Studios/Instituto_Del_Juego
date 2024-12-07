@@ -18,7 +18,7 @@ func _ready():
 	var file_name = "user://data/" + PlayerData.player_name +"_"+ Time.get_date_string_from_system() + "_" + current_time
 	var file = FileAccess.open(file_name, FileAccess.WRITE)
 	file.store_line("Player's Code: " + PlayerData.player_name)
-	file.store_line("Object's Name  | Object's Time Since Start  | Object's Time Since Last Object Found")
+	file.store_line("Object's Name  | Object's Time Since Start    | Object's Time Since Last Object Found")
 	for i in range(len(keys)):
 		file.store_line(str(i + 1) + ") " + create_new_time_label(keys[i], PlayerData.map_of_times[keys[i]]) + "                 |" + get_time_diff(keys, i))
 	file.close()
